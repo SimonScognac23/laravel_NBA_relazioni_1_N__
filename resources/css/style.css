@@ -1,0 +1,157 @@
+/* PAGINA HOME PAGE  ----------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Stile personalizzato per la Hero Section */
+.hero-section {
+    background-image: url('https://www.basketsecondomez.com/wp-content/uploads/2019/06/MEZ-BLOG-harlme-basket-playground.jpg');
+    /* Ho impostato un'immagine di sfondo per rendere la sezione più d'impatto */
+    background-size: cover;
+    /* Voglio che l'immagine copra tutta l'area */
+
+    height: 100vh;
+    /* Imposto l'altezza al 100% della viewport per coprire tutto lo schermo */
+    color: white;
+    /* Rendo il testo bianco per contrasto */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* Aggiungo un'ombra per rendere il testo più leggibile */
+}
+
+
+/* PAGINA CREATE CANOTTA NBA  ------------------------------------------------------*/
+
+/* style-nba.css */
+
+/* Colori ufficiali NBA */
+:root {
+    --nba-red: #c8102e;
+    /* Questo è il rosso ufficiale NBA, lo userò per evidenziare */
+    --nba-blue: #0b1e3f;
+    /* Questo è il blu scuro NBA, perfetto per l'header */
+    --nba-white: #ffffff;
+    /* Bianco classico, lo uso come base neutra */
+}
+
+/* HEADER */
+.nba-header {
+    background-color: var(--nba-blue);
+    /* Do all'header il blu scuro per renderlo elegante e in tema NBA */
+    padding: 2rem 0;
+    /* Aggiungo spazio sopra e sotto per far respirare il contenuto */
+}
+
+.nba-logo {
+    max-height: 120px;
+    /* Imposto un'altezza massima per mantenere il logo ben proporzionato */
+    margin-bottom: 1rem;
+    /* Lascio uno spazio sotto al logo per separarlo dal titolo */
+}
+
+/* SEZIONE FORM */
+.nba-form-section {
+    background-color: #f5f5f5;
+    /* Sfondo grigio chiaro per separare visivamente dal resto della pagina */
+    padding: 3rem 0;
+    /* Aggiungo spazio verticale per migliorare l'estetica */
+}
+
+.nba-form {
+    background-color: var(--nba-white);
+    /* Il form lo voglio bianco per leggibilità e contrasto */
+    padding: 2rem;
+    /* Spazio interno al form */
+    border-top: 4px solid var(--nba-red);
+    /* Una linea rossa sopra il form per richiamare il tema NBA */
+    border-radius: 0.5rem;
+    /* Angoli arrotondati per uno stile moderno */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    /* Aggiungo un'ombra leggera per sollevare visivamente il form */
+}
+
+/* BOTTONE */
+.submit-btn {
+    background-color: var(--nba-red);
+    /* Il bottone rosso attira l'attenzione e segue il tema NBA */
+    color: var(--nba-white);
+    /* Testo bianco per contrastare bene con lo sfondo rosso */
+    font-weight: bold;
+    /* Rendo il testo in grassetto per farlo risaltare */
+    padding: 0.75rem;
+    /* Spazio interno per un aspetto più consistente */
+    border: none;
+    /* Tolgo i bordi predefiniti per un look più pulito */
+}
+
+.submit-btn:hover {
+    background-color: #a10c23;
+    /* Cambio leggermente il rosso al passaggio del mouse per dare un effetto visivo */
+}
+
+
+/* PAGINA CARD   ------------------------------------------------------*/
+
+
+/* style.css */
+.bulls-card {
+    background-color: #000;
+    /* nero */
+    border: 2px solid #ce1141;
+    /* rosso Bulls */
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(206, 17, 65, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.bulls-card:hover {
+    transform: scale(1.02);
+}
+
+.bulls-body {
+    background-color: transparent;
+    padding: 1rem;
+}
+
+.bulls-image {
+    border-right: 2px solid #ce1141;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* PAGINA NAV   ------------------------------------------------------*/
+
+/* Personalizzazione del logo e colori della navbar */
+.navbar {
+    background-color: #002f6c;
+    /* Colore blu dei Knicks */
+}
+
+.navbar-brand {
+    color: #f58426 !important;
+    /* Colore arancione dei Knicks */
+    display: flex;
+    align-items: center;
+    /* Centra verticalmente il logo e il testo */
+}
+
+.navbar-brand img {
+    width: 40px;
+    /* Imposta la larghezza del logo */
+    height: auto;
+    /* Mantiene le proporzioni dell'immagine */
+    margin-right: 10px;
+    /* Distanza tra logo e testo */
+}
+
+.nav-link {
+    color: #ffffff !important;
+    /* Colore bianco per il testo dei link */
+}
+
+.nav-link:hover {
+    color: #f58426 !important;
+    /* Colore arancione al passaggio del mouse */
+}
+
+.navbar-toggler-icon {
+    background-color: #f58426;
+    /* Icona del menu mobile arancione */
+}
