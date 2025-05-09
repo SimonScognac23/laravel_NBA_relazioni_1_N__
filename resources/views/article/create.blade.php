@@ -78,16 +78,21 @@
                     >            
                 </div>
 
-                <!-- CAMPO DESCRIZIONE -->
-                <div class="mb-3">
-                    <label for="body" class="form-label fw-bold text-primary">Descrizione</label>
-                    <textarea 
-                        name="body" 
-                        class="form-control" 
-                        id="body"
-                        rows="3"
-                    >{{ old('body') }}</textarea>          
-                </div>
+            
+
+
+       <!-- CAMPO DESCRIZIONE -->
+<div class="mb-3">
+    <label for="body" class="form-label fw-bold text-primary">Descrizione</label>
+    <textarea 
+        name="body" 
+        class="form-control" 
+        id="body"
+        rows="3"
+    >{{ old('body') }}</textarea>          
+</div>
+
+
 
                 <!-- CAMPO IMMAGINE -->
                 <div class="mb-3">

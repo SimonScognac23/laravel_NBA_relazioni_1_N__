@@ -16,7 +16,7 @@
 }
 
 
-/* PAGINA CREATE CANOTTA NBA  ------------------------------------------------------*/
+/* PAGINA CREATE/EDIT CANOTTA NBA  ------------------------------------------------------*/
 
 /* style-nba.css */
 
@@ -154,4 +154,90 @@
 .navbar-toggler-icon {
     background-color: #f58426;
     /* Icona del menu mobile arancione */
+}
+
+/* PAGINA LOGIN   ------------------------------------------------------*/
+
+/* Colori e stile NBA */
+.bg-nba {
+    background: linear-gradient(135deg, #1D428A, #FF671F);
+    /* Blu e arancio Knicks */
+    color: white;
+}
+
+.title-nba {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FF671F;
+}
+
+.text-nba {
+    font-size: 1.1rem;
+    color: white;
+}
+
+.label-nba {
+    color: #1D428A;
+    font-weight: bold;
+}
+
+.input-nba {
+    border: 2px solid #FF671F;
+    border-radius: 8px;
+}
+
+.form-nba {
+    background-color: #F5F5F5;
+}
+
+.btn-nba {
+    background-color: #1D428A;
+    border: none;
+}
+
+.btn-nba:hover {
+    background-color: #153C7E;
+}
+
+/* PAGINA REGISTER   ------------------------------------------------------*/
+
+/* style76ers.css */
+
+/* Colori base */
+.bg-76ers {
+    background-color: #006BB6;
+    /* blu 76ers */
+    color: white;
+}
+
+.text-76ers {
+    color: #D0103A;
+}
+
+.label-76ers {
+    color: #006BB6;
+    font-weight: 600;
+}
+
+.input-76ers {
+    border: 2px solid #006BB6;
+    box-shadow: 0 0 5px rgba(0, 107, 182, 0.2);
+}
+
+.form-76ers {
+    background-color: #f8f9fa;
+}
+
+.btn-76ers {
+    background-color: #D0103A;
+    border: none;
+}
+
+.btn-76ers:hover {
+    background-color: #a50e2d;
+}
+
+h1,
+h2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

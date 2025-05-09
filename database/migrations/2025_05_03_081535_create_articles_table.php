@@ -34,6 +34,7 @@ return new class extends Migration
             // Il valore di default deve essere un'immagine che abbiamo nel nostro progetto.
 
             $table->string('img')->default('imgArticles/default/default.jpg');
+            
 
             $table->timestamps();
         });

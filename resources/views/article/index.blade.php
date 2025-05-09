@@ -4,6 +4,8 @@
         <div class="row justify-content-center align-items-center">
             <div class="col-12 col-md-6 d-flex justify-content-center">
 
+            <x-display-message />
+
                 @foreach($articles as $article)  
                     <!-- quello che mi ritorna è un dato di tipo collection, che è come un array e ha delle propretà in più -->
                  

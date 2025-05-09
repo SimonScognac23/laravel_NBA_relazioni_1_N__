@@ -9,6 +9,10 @@
                     <h5 class="card-title text-white">{{ $article->name }}</h5>
                     <p class="card-text text-white">Numero: {{ $article->number }}</p>
                     <p class="card-text text-white">Squadra: {{ $article->team }}</p>
+
+                    
+                    <p class="card-text text-white"> Creato dall'utente: {{ optional($article->user)->name ?? 'Utente sconosciuto' }}</p>
+ <!-- TRAVERSAL MODEL OVVERO LA CAPACITà DEI MODELLI DI RECUPERARE LE INFORMAZIONI DEI MODELLI RELAZIONATI, questa sintassi erve per gestire i casi NULL creati prima-->
                     
                     <!-- 
                         La funzione number_format è utilizzata per formattare il numero in modo che abbia un numero fisso di decimali.
@@ -21,7 +25,7 @@
                     <p class="card-text text-danger fw-bold">Prezzo: €{{ number_format($article->price, 2) }}</p>
 
                     <!-- Link per modificare l'articolo -->
-                    <a href="{{ route('article.edit', $article->id) }}" class="btn btn-outline-light mt-3">Modifica</a>
+                    <a href="{{ route('article.edit', $article) }}" class="btn btn-outline-light mt-3">Modifica</a>
                 </div>
             </div>
         </div>
@@ -29,13 +33,13 @@
 
     <!-- 
         Form per eliminare l'articolo.
-        La direttiva @method('DELETE') simula una richiesta HTTP di tipo DELETE.
+        La direttiva @method('DELETE') Spoofing simula una richiesta HTTP di tipo DELETE.
         Questo è necessario perché i form HTML supportano solo GET e POST.
         Laravel lo utilizza per rispettare le convenzioni RESTful.
     -->
-    <form action="{{ route('article.destroy', $article->id) }}" method="POST" class="mt-2">
+    <form action="{{ route('article.destroy', $article) }}" method="POST" class="mt-2">
         @csrf
-        @method('DELETE')
+        @method('DELETE')  
         <button type="submit" class="btn btn-danger">Elimina</button>
 
         <!-- 
@@ -43,7 +47,7 @@
             Utilizza la rotta 'article.show' passando l'articolo in modo compatto.
             Lo stile usa Bootstrap 'btn-outline-danger' per un contorno rosso.
         -->
-        <a href="{{ route('article.show', compact('article')) }}" class="btn btn-outline-danger mt-3">Dettaglio articolo</a>
+        <a href="{{ route('article.show', $article) }}" class="btn btn-outline-danger mt-3">Dettaglio articolo</a>
     </form>
 </div>
 

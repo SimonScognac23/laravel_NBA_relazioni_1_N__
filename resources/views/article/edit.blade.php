@@ -1,79 +1,128 @@
-@extends('layouts.app')
+<x-layout>
 
-@section('content')
-<div class="container">
-    <h2>Modifica Articolo</h2>
 
-    <!-- Mostra il messaggio di errore o successo, se presente -->
+
+
+
+    <!-- HEADER -->
+    <header class="nba-header">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-12 text-center">
+                    <!-- Logo NBA -->
+                    <img src="https://upload.wikimedia.org/wikipedia/en/0/03/National_Basketball_Association_logo.svg" 
+                         alt="Logo NBA" 
+                         class="img-fluid nba-logo">
+                    <h1 class="text-white">Modifica l'articolo : {{$article->name}} </h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <x-display-message />
+    <x-display-errors />
 
-    <!-- Bottone per tornare indietro -->
-    <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">
-        Torna indietro
-    </a>
-
-
-    <!-- Inizio del form per modificare l'articolo -->
-    <form action="{{ route('article.update', $article->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-
-        <!-- Nome -->
-        <div class="mb-3">
-            <label for="name" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $article->name) }}">
-        </div>
-
-        <!-- Numero -->
-        <div class="mb-3">
-            <label for="number" class="form-label">Numero</label>
-            <input type="number" class="form-control" id="number" name="number" value="{{ old('number', $article->number) }}">
-        </div>
-
-        <!-- Squadra -->
-        <div class="mb-3">
-            <label for="team" class="form-label">Squadra</label>
-            <input type="text" class="form-control" id="team" name="team" value="{{ old('team', $article->team) }}">
-        </div>
-
-        <!-- Prezzo -->
-        <div class="mb-3">
-            <label for="price" class="form-label">Prezzo</label>
-            <input type="number" class="form-control" id="price" name="price" value="{{ old('price', $article->price) }}">
-        </div>
-
-        <!-- Descrizione -->
-        <div class="mb-3">
-            <label for="body" class="form-label">Descrizione</label>
-            <textarea class="form-control" id="body" name="body">{{ old('body', $article->body) }}</textarea>
-        </div>
-
-        <!-- Bottone di invio -->
-        <button type="submit" class="btn btn-primary">Aggiorna Articolo</button>
-    </form>
-</div>
-@endsection
-
-<!-- 
-    La direttiva extends in Blade viene utilizzata per estendere un layout di base. 
-    In questo caso, il layout di base è definito nel file 'layouts.app', che di solito contiene la struttura comune per tutte le pagine dell'applicazione, 
-    come il header, il footer e altre sezioni che non cambiano da una pagina all'altra.
-    
-    La direttiva section definisce una sezione del contenuto che verrà inserita nel layout di base. 
-    Nello specifico, qui la sezione 'content' è quella che conterrà il contenuto dinamico per questa pagina specifica.
-    In questo caso, il contenuto della pagina sarà il codice che segue il tag section, ovvero tutto ciò che è compreso tra section('content') e endsection.
-    
-    Quando il layout di base viene caricato, Laravel sostituirà questa sezione con il contenuto specifico di questa vista (quella che stiamo creando).
-    
-    In breve:
-    - extends è usato per ereditare un layout di base.
-    - section definisce una sezione di contenuto che andrà a sostituire una parte del layout di base.
-    Questo rende il codice più modulare e riutilizzabile, separando la logica di layout da quella di contenuto.
--->
-
-
-  <!-- 
-        url()->previous() è una funzione di Laravel che restituisce l'URL della pagina precedente visitata dall'utente. 
-        Questo è utile per creare un bottone "Torna indietro", simile al comportamento del pulsante "Back" del browser.
-        Quando l'utente clicca sul link, verrà reindirizzato alla pagina da cui è arrivato, rendendo la navigazione più fluida.
+    <!-- FORM 
+    1 Sfruttamo il VALUE per recuperare i dati che vogliamo modificare
+    2 Per img abbiamo due div
+    3 sfruttamo la route article.update
+    4 sfruttiamo la direttiva method per fare un override del metodo di base del form
+    5 usiamo METHOD che è una direttiva di laravel che sta ad indicare ad un form che deve sovrascrivere la richiesta rispetto alla richiesta impostata di default all'interno del form
+    6 e all'interno delle tonde gli passiamo il metodo corretto che il form dovra portarsi con se al momento della richiesta e in questo caso è il metodo PUT
     -->
+    <div class="row nba-form-section">
+        <div class="col-12 col-md-6 mx-auto">
+            <form method="POST" action="{{ route('article.update', $article->id) }}" enctype="multipart/form-data" class="nba-form">
+
+                @method('PUT')  <!--l'override del metodo da POST A PUT è detto Spoofing -->
+                @csrf
+
+                <!-- CAMPO NOME -->
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-bold text-primary">Nome della canotta</label>
+                    <input 
+                        name="name" 
+                        value="{{ $article->name }}"
+                        type="text" 
+                        class="form-control" 
+                        id="name"
+                    >            
+                </div>
+
+                <!-- CAMPO NUMERO -->
+                <div class="mb-3">
+                    <label for="number" class="form-label fw-bold text-primary">Numero della canotta</label>
+                    <input 
+                        name="number" 
+                        value="{{ $article->number }}"
+                        type="number" 
+                        step="1"
+                        class="form-control" 
+                        id="number"
+                    >            
+                </div>
+
+                <!-- CAMPO TEAM -->
+                <div class="mb-3">
+                    <label for="team" class="form-label fw-bold text-primary">Team della maglia</label>
+                    <input 
+                        name="team" 
+                        value="{{ $article->team }}"
+                        type="text" 
+                        class="form-control" 
+                        id="team"
+                    >            
+                </div>
+
+                <!-- CAMPO PREZZO -->
+                <div class="mb-3">
+                    <label for="price" class="form-label fw-bold text-primary">Prezzo della canotta (€)</label>
+                    <input 
+                        name="price" 
+                        value="{{ $article->price }}"
+                        type="number"
+                        step="0.01"
+                        class="form-control" 
+                        id="price"
+                    >            
+                </div>
+
+                <!-- CAMPO DESCRIZIONE -->
+                <div class="mb-3">
+                    <label for="body" class="form-label fw-bold text-primary">Descrizione</label>
+                    <textarea 
+                        name="body" 
+                        class="form-control" 
+                        id="body"
+                        rows="3"
+                    >{{ $article->body }}</textarea>          
+                </div>
+
+                <!--IMMAGINE ATTUALE 
+                La passiamo tramite lo storage e all'interno la recuperiamo con l'article-->
+                <div class="mb-3">
+                <span class="form-label fw-bold text-primary">Immagine attuale:</span>
+                <img src=" {{Storage::url( $article->img )}} " alt="">
+                </div>
+
+                <!-- IMMAGINE NUOVA DA INSERIRE -->
+                <div class="mb-3">
+                    <label for="img" class="form-label fw-bold text-primary">Inserisci nuova immagine della canotta</label>
+                    <input 
+                        name="img" 
+                        type="file" 
+                        class="form-control" 
+                        id="img"
+                    >            
+                </div>
+
+               <!-- BOTTONE MODIFICA -->
+                  <button type="submit" class="btn btn-dark text-white w-100">
+                      Modifica dati
+                 </button>
+
+            </form>
+        </div>
+    </div>
+
+</x-layout>

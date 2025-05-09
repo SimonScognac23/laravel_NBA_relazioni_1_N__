@@ -6,9 +6,12 @@ use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+  //Importiamo la classe Auth per istruire il mio codice nella funzione store per poter accettare come parametro user_id che raccoglie l'id dell'utente
 
 class ArticleController extends Controller
 {
+    // =========================================================================
     /**
      * Display a listing of the resource.
      */
@@ -21,12 +24,11 @@ class ArticleController extends Controller
         // richiamo la mia classe Article che è la classe che si mette in comunicazione tra Laravel e il database
         // e le dico di prendere tutti i dati
 
-        return view('article.index', ['articles' => $articles]);  
+        return view('article.index', ['articles' => $articles]);
         // ritorna la vista del file index dentro la cartella article
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    // =========================================================================
     /**
      * Show the form for creating a new resource.
      */
@@ -35,97 +37,136 @@ class ArticleController extends Controller
         return view('article.create');
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    // =========================================================================
     /**
      * Store a newly created resource in storage.
      */
     public function store(ArticleRequest $request)
     {
-        // Verifica se il file è presente
-        if ($request->hasFile('img')) {
-            // Se il file è presente e valido, lo salviamo
-            $imgPath = $request->file('img')->store('img', 'public');
+        // PRIMO METODO PER CONTROLLARE SE UTENTE HA INSERITO UNA IMMAGINE
+        // Metodo per controllare se utente mi ha passato un'immagine, tramite controllo if/else
+        /*
+        if ($request->file('img')) {
+            // MASS ASSIGNMENT
+            Article::create([
+                'name'   => $request->name,
+                'number' => $request->number,
+                'team'   => $request->team,
+                'price'  => $request->price,
+                'body'   => $request->body,
+                'img'    => $request->file('img')->store('public/img'),
+            ]);
         } else {
-            // Se il file non è presente, usiamo il valore predefinito
-            $imgPath = 'imgArticles/default/default.jpg';  // Percorso relativo dell'immagine predefinita
+            Article::create([
+                'name'   => $request->name,
+                'number' => $request->number,
+                'team'   => $request->team,
+                'price'  => $request->price,
+                'body'   => $request->body,
+            ]);
         }
+        */
 
-        // Mass Assignment: creiamo un nuovo articolo con i dati della request
-        Article::create([
-            'name' => $request->name,
+        // SECONDO METODO PER CONTROLLARE SE UTENTE HA INSERITO UNA IMMAGINE
+        // Creo un articolo indifferentemente se l'utente mi ha passato un'immagine,
+        // poi controllo se l'utente mi ha passato l'immagine e poi la salvo nel database
+
+        // MASS ASSIGNMENT
+        $article = Article::create([
+            'name'   => $request->name,
             'number' => $request->number,
-            'body' => $request->body,
-            'img' =>  $imgPath,  // Salviamo il percorso dell'immagine
-            'price' => $request->price,
-            'team' => $request->team,
+            'team'   => $request->team,
+            'price'  => $request->price,
+            'body'   => $request->body,
+
+
+
+            // Qui andremo a inserire il valore dell'utente autenticato
+               //Usiamo Auth che è la classe che se l'utente è autenticato viene valorizzato con l'informazione dell'utente.
+               //con user accediamo all'utente autenticato e recuperiamol'ID dell'utente e mi ritorna il valore id del'utente
+               //!!! importante ---> io sono sicuro che mi ritorna il valore di id perchè ho istruito il mio programma in modo che solo chi è autenticato puo fare la store perchè se la persona non è autenticata non puo andare in crea prodotto,quindi Auth quando entrerà nella funzione store avrà il valore dell'utente registrato ovvero l'id
+               // !!!!importante ----->  Quindi quando creo il prodotto con questo modo il prodotto ovvero l'articolo gli viene assegnato automaticamente l'id dell'utente loggato al momento!!
+            'user_id' => Auth::user()->id
+
         ]);
 
-        // Ritorna al form con un messaggio di successo
+        // arrivato qui il mio valore di img sarà quello di default
+
+        // ora...
+        if ($request->file('img')) {
+            // Controllo se l'utente mi ha passato l'immagine
+            // Se sì, sovrascrivo il valore di default del mio articolo, salvandolo prima dentro una variabile
+            // $article sarà l'oggetto di classe Article
+            $article->img = $request->file('img')->store('img', 'public');
+            $article->save();
+        }
+
         return redirect()->back()->with('successMessage', 'Articolo inserito con successo');
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-     /**
+    // =========================================================================
+    /**
      * Display the specified resource.  ROTTA PARAMETRICA
      */
-    public function show(Article $article)  // il article sarà semplicemente l'id che lv attraverso un operazione logica recupera l'id e recupera tutto l'articolo, in realta scrivere o no $id non è necessario 
+    public function show(Article $article)
     {
-      
-        // Logica per mostrare un articolo specifico (non implementata ancora)
-    return view('article.show', compact('article')); 
+        // il $article sarà semplicemente l'id che Laravel attraverso un'operazione logica recupera l'id e recupera tutto l'articolo,
+        // in realtà scrivere o no $id non è necessario 
+
         // Utilizziamo compact per passare la variabile article alla vista 'article.show',
         // in modo che la vista possa accedere ai dati dell'articolo, incluso l'ID, e mostrarne i dettagli.
-
+        return view('article.show', compact('article'));
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // =========================================================================
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        // Recupera l'articolo con l'ID specificato
-        $article = Article::findOrFail($id);
-    
-        // Passa l'articolo alla vista per mostrare i dati nel form
+        // Ritorniamo la vista che conterrà il form del articolo portandoci con la funzione compact tutto l'articolo
         return view('article.edit', compact('article'));
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public function update(Request $request, $id)
+    // =========================================================================
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Article $article)
     {
-        // Il metodo findOrFail cerca un record nel database usando l'ID specificato.
-        // Se trova il record, lo restituisce come oggetto Article.
-        // Se NON lo trova, Laravel lancia automaticamente una eccezione 404 (ModelNotFoundException),
-        // mostrando all'utente la pagina "Not Found".
-        $article = Article::findOrFail($id);
-        
-        // Il metodo validate applica le regole di validazione ai dati inviati dal form.
-        // Se un campo non rispetta le regole (es. obbligatorio, formato numerico...), Laravel 
-        // reindirizza automaticamente alla pagina precedente con i messaggi di errore.
-        $validatedData = $request->validate([
-            'name' => 'nullable|string',  // Il campo "name" è facoltativo e deve essere una stringa
-            'number' => 'nullable|integer',  // Il campo "number" è facoltativo e deve essere un numero intero
-            'team' => 'nullable|string',  // Il campo "team" è facoltativo e deve essere una stringa
-            'price' => 'nullable|numeric',  // Il campo "price" è facoltativo e deve essere numerico
-            'body' => 'nullable|string',  // Il campo "body" è facoltativo e deve essere una stringa
-           
+        // Se l'utente passa o no l'immagine i nostri articoli sono studiati per avere una foto di default, avranno sempre un'immagine
+        // che sia o quella dell’articolo o quella di default
+        // Qui sulla if mi controllo se l'utente mi ha passato l'immagine
+
+        if ($request->file('img')) {
+            $img = $request->file('img')->store('img', 'public');
+        } else {
+            $img = $article->img; // Ossia $img sarà uguale al suo valore originale, cioè quello che era già salvato nel database,
+            // ossia l'immagine di default. Questo mi permette di compiere SOLO una volta l'operazione di salvataggio nel DB
+            // perché l'utente mi passi o no l'immagine, io avrò una foto, io saprò sempre che il valore di img sarà sempre assegnato
+        }
+
+        // Questo articolo deve essere modificato con i dati della request, non utilizzeremo più la classe Article,
+        // perché l'articolo da modificare ce l'abbiamo già ed è $article
+        // Il metodo update come parametro accetta un array, quindi funziona come il mass assignment.
+        // Questa operazione update mi andrà a modificare l'articolo con i nuovi dati
+
+        $article->update([
+            'name'   => $request->name,
+            'number' => $request->number,
+            'team'   => $request->team,
+            'price'  => $request->price,
+            'body'   => $request->body,
+            'img'    => $img,
         ]);
-    
 
-    
-        // Aggiorna i dati dell'articolo nel database con i dati validati (inclusa l'immagine aggiornata)
-        $article->update($validatedData);
-    
-        // Reindirizza alla lista degli articoli con un messaggio di successo
-        return redirect()->back()->with('successMessage', 'Articolo inserito con successo');
+        return redirect(route('article.index'))->with('successMessage', 'Articolo modificato');
     }
-    
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // =========================================================================
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Article $article)
     {
         // Elimina l'articolo

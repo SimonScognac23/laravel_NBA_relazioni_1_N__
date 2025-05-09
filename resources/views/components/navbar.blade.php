@@ -22,19 +22,59 @@
           <a class="nav-link fw-semibold text-orange" href="{{ route('home.page') }}">Home</a>
         </li>
 
-        <!-- Link per visualizzare tutte le jersey NBA -->
-        <li class="nav-item">
-          <a class="nav-link fw-semibold text-light" href="{{ route('article.index') }}">
-            Vedi tutte le jersey NBA
-          </a>
-        </li>
+        <!-- Se l'utente NON è autenticato -->
+        @guest
+          <!-- if(!Auth::user()) pag.46 appunti LVDB Se l'utente è loggato il valore è true e tutto quello che viene dopo non viene visualizzato -->
+          
+          <!-- Link Registrati -->
+          <li class="nav-item">
+            <a class="nav-link custom-nav-link" href="{{ route('register') }}">
+              Registrati
+            </a>
+          </li>
 
-        <!-- Link per creare una nuova jersey -->
-        <li class="nav-item">
-          <a class="nav-link fw-semibold text-light" href="{{ route('article.create') }}">
-            Crea la tua jersey personale
-          </a>
-        </li>
+          <!-- Link Accedi -->
+          <li class="nav-item">
+            <a class="nav-link custom-nav-link" href="{{ route('login') }}">
+              Accedi
+            </a>
+          </li>
+        @endguest
+        <!-- Fine sezione Registrati/Accedi -->
+
+        <!-- Se l'utente È autenticato -->
+        @auth
+          <!-- Messaggio di Benvenuto e Logout -->
+          <li class="nav-item d-flex flex-column align-items-center">
+
+            <!-- Messaggio di benvenuto -->
+            <a class="nav-link custom-welcome" href="#">
+              Benvenuto
+            </a>
+
+            <!-- Form Logout -->
+            <form method="POST" action="{{ route('logout') }}" class="d-flex flex-column align-items-center">
+              @csrf
+              <button type="submit" class="btn btn-outline-light btn-sm mt-2">
+                Logout
+              </button>
+            </form>
+
+            <!-- Link per creare una nuova jersey -->
+            <li class="nav-item">
+              <a class="nav-link fw-semibold text-light" href="{{ route('article.create') }}">
+                Crea la tua jersey personale
+              </a>
+            </li>
+
+            <!-- Link per visualizzare tutte le jersey NBA -->
+            <li class="nav-item">
+              <a class="nav-link fw-semibold text-light" href="{{ route('article.index') }}">
+                Vedi tutte le jersey NBA
+              </a>
+            </li>
+        @endauth
+        <!-- Fine sezione Benvenuto/Logout -->
 
       </ul>
     </div>
